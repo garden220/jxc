@@ -1,4 +1,4 @@
-先在文件--首选项--设置--搜git.path，在设置中添加下面git的相关配置
+1、先在文件--首选项--设置--搜git.path，在设置中添加下面git的相关配置
 {
     "workbench.colorTheme": "Visual Studio Dark",
     "git.ignoreMissingGitWarning": true,
@@ -10,3 +10,15 @@
     "git.confirmSync": false,
     "terminal.integrated.shell.windows": "D:\\Program files\\Git\\bin\\bash.exe"
 }
+
+2、终端上配置git
+
+git config --global user.name "garden220" 
+git config --global user.email "liyanfeng859@163.com"
+
+3、github上创建库 repository
+
+4、本地项目终端上初始化git
+
+git init
+
