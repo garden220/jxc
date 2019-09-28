@@ -1,0 +1,12 @@
+先在文件--首选项--设置--搜git.path，在设置中添加下面git的相关配置
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "git.ignoreMissingGitWarning": true,
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.iconTheme": "vscode-icon-theme",
+
+    "git.path":"D:/Program files/Git/cmd/git.exe",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "terminal.integrated.shell.windows": "D:\\Program files\\Git\\bin\\bash.exe"
+}
