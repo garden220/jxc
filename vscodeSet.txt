@@ -21,4 +21,11 @@ git config --global user.email "liyanfeng859@163.com"
 4、本地项目终端上初始化git
 
 git init
+git add .（添加文件目录到git仓库 . 小数点是添加当前目录下的所有文件 也可以只添加制定文件或者文件夹）
+git commit -m "可写注释内容"  （上传到git仓库）
+git remote add origin https://github.com/garden220/jxc.git（执行git仓库与github仓库的连接）
+git push -u origin master 推送到分支(master) 如果本地没有README.md文件，先执行git pull origin master意思是拉取与合并
+git config --global credential.helper store（记住git账号密码）
 
+5、vscode上的git管理
+如果修改了代码，先点“源代码管理”上changes里面文件上的加号，意思是git add . ,再点上面的对勾，意思是git commit -m “注释”，最后点三个点里面的push，推送
