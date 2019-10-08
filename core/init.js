@@ -6,6 +6,7 @@ class InitManager {
     static initCore(app) {
         InitManager.app = app;
         InitManager.initLoadRouters();
+        InitManager.loadHttpException();
     }
     // 导入所有路由
     static initLoadRouters() {
@@ -17,6 +18,11 @@ class InitManager {
                 }
             }
         });
+    }
+    // global上挂载所有error异常类
+    static loadHttpException(){
+        const errors=require("../core/http-exception");
+        global.errors=errors;
     }
 }
 

@@ -1,8 +1,11 @@
 const Koa = require('koa');
 const parser=require('koa-bodyparser');
 const InitManager=require('./core/init');
+const catchError=require("./middlewares/exception");
 
 const app = new Koa();
+//加载全局异常处理中间件
+app.use(catchError);
 //对post请求，ctx的body支持
 app.use(parser());
 //调用初始化管理器
