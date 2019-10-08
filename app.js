@@ -1,20 +1,11 @@
 const Koa = require('koa');
+const parser=require('koa-bodyparser');
+const InitManager=require('./core/init');
 
 const app = new Koa();
-
-app.use(function(ctx,next){
-    const abc=ctx;
-    ctx.body=abc;
-    console.log(123);
-    next()
-});
-app.use(async function(){
-    const axios=require('axios');
-    const start=Date.now();
-    const res =await axios.get('http://7yue.pro');
-    const end=Date.now();
-    console.log(111,end-start);
-});
-
+//对post请求，ctx的body支持
+app.use(parser());
+//调用初始化管理器
+InitManager.initCore(app);
 
 app.listen(3000);
