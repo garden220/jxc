@@ -38,13 +38,14 @@ const findMembers = function (instance, {
 
     return _find(instance)
 }
-
+//生成token
 const generateToken = function(uid, scope){
     const secretKey = global.config.security.secretKey
     const expiresIn = global.config.security.expiresIn
+    //sign三个参数，1自定义值，2密匙，3过期时间
     const token = jwt.sign({
-        uid,
-        scope
+        uid, //用户id
+        scope //用户等级
     },secretKey,{
         expiresIn
     })

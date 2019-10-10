@@ -7,6 +7,7 @@ class InitManager {
         InitManager.app = app;
         InitManager.initLoadRouters();
         InitManager.loadHttpException();
+        InitManager.loadConfig();
     }
     // 导入所有路由
     static initLoadRouters() {
@@ -23,6 +24,12 @@ class InitManager {
     static loadHttpException(){
         const errors=require("../core/http-exception");
         global.errors=errors;
+    }
+    // global上挂载config
+    static loadConfig(path=''){
+        const configPath=path || process.cwd()+'/config/config.js';
+        const config=require(configPath);
+        global.config=config;
     }
 }
 
