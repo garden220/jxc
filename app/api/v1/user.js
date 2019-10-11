@@ -6,7 +6,7 @@ const {RegisterValidator} =require('../../validators/validator');
 const {User} =require('../../models/user');
 const {success} =require('../../lib/helper');
 
-
+//注册
 router.post('/register',async (ctx,next)=>{
     const v= await new RegisterValidator().validate(ctx);
     const user={

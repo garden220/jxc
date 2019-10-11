@@ -12,6 +12,7 @@ class Auth{
         Auth.ADMIN=16;
         Auth.SUPER_ADMIN=32;
     }
+    //中间件验证令牌
     get auth(){
         return async (ctx,next)=>{
             const userToken=basicAuth(ctx.req);
@@ -44,6 +45,22 @@ class Auth{
 
         }
     }
+    //调用api验证令牌
+    static verifyToken(token){
+        let errMsg='token不合法';
+        try{
+            jwt.verify(token,global.config.security.secretKey)
+        }
+        catch(error){
+            //令牌过期
+            if(error.name==='TokenExpiredError'){
+                errMsg='token已过期'
+            }
+            //令牌不合法
+            throw new global.errors.Forbbiden(errMsg);
+        }
+    }
+
 }
 module.exports={
     Auth

@@ -81,9 +81,19 @@ class TokenValidator extends Validator{
         }
     }
 }
+//非空验证
+class NotEmptyValidator extends Validator{
+    constructor(){
+        super();
+        this.token=[
+            new Rule('isLength','不允许为空',{min:1}),
+        ];
+    }
+}
 
 module.exports={
     PositiveIntegerValidator,
     RegisterValidator,
-    TokenValidator
+    TokenValidator,
+    NotEmptyValidator
 }

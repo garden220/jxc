@@ -8,6 +8,7 @@ class InitManager {
         InitManager.initLoadRouters();
         InitManager.loadHttpException();
         InitManager.loadConfig();
+        InitManager.loadSuccess();
     }
     // 导入所有路由
     static initLoadRouters() {
@@ -30,6 +31,18 @@ class InitManager {
         const configPath=path || process.cwd()+'/config/config.js';
         const config=require(configPath);
         global.config=config;
+    }
+    // global上挂载成功后返回数据
+    static loadSuccess(){
+        const success=(result=null,url=null)=> {
+            return {
+            success:true,
+            error:null,
+            result,
+            url
+            }
+        }
+        global.success=success;
     }
 }
 
