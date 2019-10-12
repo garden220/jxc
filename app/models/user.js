@@ -32,9 +32,12 @@ User.init({
         primaryKey:true,//主键
         autoIncrement:true,//数字自增
     },
-    nickname:Sequelize.STRING,
+    name:Sequelize.STRING,
     email:{
         type:Sequelize.STRING,
+    },
+    phone:{
+        type:Sequelize.BIGINT(11),
         unique:true
     },
     password:{
@@ -45,10 +48,6 @@ User.init({
             const psw=bcrypt.hashSync(val,salt);//创建加密密码
             this.setDataValue('password',psw);//设置新值
         }
-    },
-    openid:{
-        type:Sequelize.STRING(64),
-        unique:true
     },
     text:Sequelize.STRING
 },{sequelize,tableName:'user'});
