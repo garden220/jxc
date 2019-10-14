@@ -1,7 +1,7 @@
 const {Sequelize,Model} = require('sequelize');
 const bcrypt=require('bcryptjs');
 const {sequelize}=require('../../core/db');
-
+//用户模型
 class User extends Model{
     //验证账号密码是否正确
     static async verifyEmailPassword(email,plainPassword){
@@ -35,6 +35,7 @@ User.init({
     name:Sequelize.STRING,
     email:{
         type:Sequelize.STRING,
+        allowNull: true
     },
     phone:{
         type:Sequelize.BIGINT(11),
@@ -49,7 +50,11 @@ User.init({
             this.setDataValue('password',psw);//设置新值
         }
     },
-    text:Sequelize.STRING
+    shop_id:Sequelize.BIGINT(11),
+    role:Sequelize.STRING,
+    head_url:Sequelize.STRING,
+    register_time:Sequelize.STRING,
+    login_time:Sequelize.STRING
 },{sequelize,tableName:'user'});
 
 module.exports={User};

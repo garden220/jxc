@@ -17,30 +17,32 @@ class RegisterValidator extends Validator{
     constructor(){
         super();
         this.email=[
+            new Rule('isOptional'),
             new Rule('isEmail','不符合Email规范')
         ];
-        this.password1=[
+        this.password=[
             new Rule('isLength','密码至少6个字符，最多32字符',{
                 min:6,
                 max:32
             }),
             new Rule('matches','密码不符合规范','')
         ];
-        this.password2=this.password1;
-        this.nickname=[
+        this.name=[
             new Rule('isLength','昵称不符合长度规范，至少5个字符',{
                 min:5,
                 max:32
             }),
-        ]
-    }
-    //自定义校验
-    validatePassword(vals){
-        const psw1=vals.body.password1;
-        const psw2=vals.body.password2;
-        if(psw1!==psw2){
-            throw new Error('两个密码必须相同');
-        }
+        ];
+        this.phone=[
+            new Rule('isMobilePhone','请填入正确手机号','zh-CN'),
+            new Rule('isLength','手机号需要11位数字',{
+                min:11,
+                max:11
+            }),
+        ],
+        this.head_url=[
+            new Rule('isOptional')
+        ];
     }
     async validateEmail(vals){
         const email=vals.body.email;
@@ -52,6 +54,24 @@ class RegisterValidator extends Validator{
         if(user){
             throw new Error('email已存在');
         }
+    }
+}
+//添加货物校验
+class AddGoodsValidator extends Validator{
+    constructor(){
+        super();
+        this.number=[
+            new Rule('isInt','数量必须是数字',{
+                min:0,
+                max:32
+            })
+        ];
+        this.name=[
+            new Rule('isLength','名称不能为空',{
+                min:1,
+                max:32
+            }),
+        ];
     }
 }
 //Token校验
@@ -95,5 +115,6 @@ module.exports={
     PositiveIntegerValidator,
     RegisterValidator,
     TokenValidator,
-    NotEmptyValidator
+    NotEmptyValidator,
+    AddGoodsValidator
 }
