@@ -56,8 +56,8 @@ class RegisterValidator extends Validator{
         }
     }
 }
-//添加货物校验
-class AddGoodsValidator extends Validator{
+//货物新建、更新验证
+class GoodsValidator extends Validator{
     constructor(){
         super();
         this.number=[
@@ -74,6 +74,24 @@ class AddGoodsValidator extends Validator{
         ];
     }
 }
+//商店新建、更新验证
+// class ShopValidator extends Validator{
+//     constructor(){
+//         super();
+//         this.name=[
+//             new Rule('isInt','数量必须是数字',{
+//                 min:0,
+//                 max:32
+//             })
+//         ];
+//         this.name=[
+//             new Rule('isLength','名称不能为空',{
+//                 min:1,
+//                 max:32
+//             }),
+//         ];
+//     }
+// }
 //Token校验
 class TokenValidator extends Validator{
     constructor(){
@@ -116,5 +134,5 @@ module.exports={
     RegisterValidator,
     TokenValidator,
     NotEmptyValidator,
-    AddGoodsValidator
+    GoodsValidator
 }

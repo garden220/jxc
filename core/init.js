@@ -34,13 +34,8 @@ class InitManager {
     }
     // global上挂载成功后返回数据
     static loadSuccess(){
-        const success=(result=null,url=null)=> {
-            return {
-            success:true,
-            error:null,
-            result,
-            url
-            }
+        const success=(result)=> {
+            throw new global.errors.Success(result)
         }
         global.success=success;
     }

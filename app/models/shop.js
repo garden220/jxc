@@ -1,26 +1,37 @@
 const {Sequelize,Model} = require('sequelize');
 const {sequelize}=require('../../core/db');
+const {Goods}=require('./goods');
 //商店模型
 class Shop extends Model{
-    //验证账号密码是否正确
-    // static async verifyEmailPassword(email,plainPassword){
-    //     const user=await User.findOne({
-    //         where:{
-    //             email
-    //         }
-    //     });
-    //     if(!user){
-    //         throw new global.errors.AuthFailed('账号不存在');
-    //     }
-    //     if(!plainPassword){
-    //         throw new global.errors.AuthFailed('密码不能为空');
-    //     }
-    //     const correct=bcrypt.compareSync(plainPassword,user.password)
-    //     if(!correct){
-    //         throw new global.errors.AuthFailed('密码不正确');
-    //     }
-    //     return user;
-    // }
+    //查询
+    static async search(id){
+        const shop=await Shop.findOne({
+            where:{id}
+        });
+        if(!shop){
+            throw new global.errors.AuthFailed('商店不存在');
+        }
+        return shop;
+    }
+    //删除
+    static async delete(id){   
+        const shop=await Shop.destroy({
+            where:{id}
+        });
+        if(!shop){
+            throw new global.errors.AuthFailed('商店不存在');
+        }
+        return shop;
+    }
+    //更新
+    static async updateRows(obj){
+        const {id,name,address,user_id,phone,remark}=obj;
+        const shop=await Shop.update({name,address,user_id,phone,remark},{where:{id}});
+        if(!shop){
+            throw new global.errors.AuthFailed('更新失败');
+        }
+        return shop;
+    }
 }
 
 Shop.init({
@@ -50,5 +61,5 @@ Shop.init({
     img_url:Sequelize.STRING,
     remark:Sequelize.STRING,
 },{sequelize,tableName:'shop'});
-
+Shop.hasMany(Goods)//一对多关联
 module.exports={Shop};

@@ -21,18 +21,22 @@ const catchError = async (ctx,next) =>{
         if(isHttpException){
             //已知异常
             ctx.body={
-                msg:error.msg,
+                success:error.code===201,
+                error:error.code===201?null:error.msg,
+                result:error.code===201?error.msg:null,
+                url:`${ctx.method} ${ctx.path}`,
                 error_code:error.errorCode,
-                request:`${ctx.method} ${ctx.path}`,
                 status:error.code
             }
             ctx.status=error.code;
         }else{
             //未知异常
             ctx.body={
-                msg:'服务器错误',
+                success:null,
+                result:null,
+                error:'服务器错误',
+                url:`${ctx.method} ${ctx.path}`,
                 error_code:999,
-                request:`${ctx.method} ${ctx.path}`,
                 status:500
             }
             ctx.status=500;

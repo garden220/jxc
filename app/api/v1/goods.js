@@ -2,13 +2,13 @@ const Router=require('koa-router');
 const router=new Router({
     prefix:'/v1/goods',//配置路由前缀
 });
-const {AddGoodsValidator} =require('../../validators/validator');
+const {GoodsValidator} =require('../../validators/validator');
 const {Goods} =require('../../models/goods');
-const {success} =require('../../lib/helper');
+const {Auth} = require('../../../middlewares/auth')
 
-//添加货物
-router.post('/add',async (ctx,next)=>{
-    const v= await new AddGoodsValidator().validate(ctx);
+//添加
+router.post('/add',new Auth(3).auth,async (ctx,next)=>{
+    const v= await new GoodsValidator().validate(ctx);
     const goods={
         name:v.get('body.name'),
         number:v.get('body.number'),
@@ -23,13 +23,42 @@ router.post('/add',async (ctx,next)=>{
     await Goods.create(goods);
     success();
 })
-//删除货物
-router.delete('/delete',async (ctx,next)=>{
-     const goods= await Goods.search(ctx.request.body.id);
-    // if(goods){
-    //     await Goods.delete(ctx.request.body.id);
-    // }
-    success();
+//删除
+router.delete('/delete',new Auth(3).auth,async (ctx,next)=>{
+     const goods= await Goods.search({id:ctx.request.body.id});
+    if(goods){
+        const total=await Goods.delete({id:ctx.request.body.id});
+        global.success({total});
+    }
+    
+})
+//更新
+router.put('/update',new Auth(3).auth,async (ctx,next)=>{
+    const v= await new GoodsValidator().validate(ctx);
+    const {id,name,number,unit_price,total_price,categories_id,shop_id,unit_id,img_url,remark}=ctx.request.body;
+    const goods= await Goods.search({id});
+   if(goods){
+        await Goods.updateRows({id,name,number,unit_price,total_price,categories_id,shop_id,unit_id,img_url,remark});
+        global.success('更新成功');
+   }
+})
+//查询，精确查询
+router.get('/search',new Auth(3).auth,async (ctx,next)=>{
+    const query=ctx.request.query;
+    const goods= await Goods.search(query);
+   if(goods){
+        success({...goods});
+   }
+   
+})
+//获取
+router.get('/all',new Auth(3).auth,async (ctx,next)=>{
+    const query=ctx.request.query;
+    const goods= await Goods.all(query);
+    if(goods){
+        success({...goods});
+    }
+   
 })
 
 module.exports=router;
