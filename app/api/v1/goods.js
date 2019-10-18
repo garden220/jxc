@@ -1,3 +1,4 @@
+//货物
 const Router=require('koa-router');
 const router=new Router({
     prefix:'/v1/goods',//配置路由前缀
@@ -20,15 +21,15 @@ router.post('/add',new Auth(3).auth,async (ctx,next)=>{
         img_url:v.get('body.img_url'),
         remark:v.get('body.remark'),
     };
-    await Goods.create(goods);
-    success();
+    const count=await Goods.create(goods);
+    global.success({count});
 })
 //删除
 router.delete('/delete',new Auth(3).auth,async (ctx,next)=>{
      const goods= await Goods.search({id:ctx.request.body.id});
     if(goods){
-        const total=await Goods.delete({id:ctx.request.body.id});
-        global.success({total});
+        const count=await Goods.delete({id:ctx.request.body.id});
+        global.success({count});
     }
     
 })
@@ -47,7 +48,7 @@ router.get('/search',new Auth(3).auth,async (ctx,next)=>{
     const query=ctx.request.query;
     const goods= await Goods.search(query);
    if(goods){
-        success({...goods});
+    global.success({...goods});
    }
    
 })
@@ -56,7 +57,7 @@ router.get('/all',new Auth(3).auth,async (ctx,next)=>{
     const query=ctx.request.query;
     const goods= await Goods.all(query);
     if(goods){
-        success({...goods});
+        global.success({...goods});
     }
    
 })

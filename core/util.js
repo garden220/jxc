@@ -1,4 +1,6 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const {Sequelize} = require('sequelize');
+const Op = Sequelize.Op;
 /***
  * 
  */
@@ -51,24 +53,56 @@ const generateToken = function(uid, scope){
     })
     return token
 }
-
+const modelInit=(model)=>{
+    //获取
+    model.all= async function(params){
+        const modelRes=await model.findAndCountAll({
+            where: {
+                name: {[Op.like]:'%' +params.name + '%'}
+            },
+            limit: parseInt(params.size),
+            offset: parseInt(params.skip),
+            order: [[params.order||'id', 'DESC']]
+        });
+        if(!modelRes){
+            throw new global.errors.AuthFailed('暂无数据');
+        }
+        return modelRes;
+    }
+    //查询
+    model.search= async function(id){
+        const modelRes=await model.findOne({
+            where:{id}
+        });
+        if(!modelRes){
+            throw new global.errors.AuthFailed('商店不存在');
+        }
+        return modelRes;
+    }
+    //删除
+    model.delete= async function(id){   
+        const modelRes=await model.destroy({
+            where:{id}
+        });
+        if(!modelRes){
+            throw new global.errors.AuthFailed('商店不存在');
+        }
+        return modelRes;
+    }
+    //更新
+    model.updateRows= async function(obj){
+        const {id,name,address,user_id,phone,remark}=obj;
+        const modelRes=await model.update({name,address,user_id,phone,remark},{where:{id}});
+        if(!modelRes){
+            throw new global.errors.AuthFailed('更新失败');
+        }
+        return modelRes;
+    }
+}
 
 
 module.exports = {
     findMembers,
     generateToken,
+    modelInit,
 }
-
-
-
-// const generateToken = function (uid, scope) {
-//     const secretKey = global.config.security.secretKey
-//     const expiresIn = global.config.security.expiresIn
-//     const token = jwt.sign({
-//         uid,
-//         scope
-//     }, secretKey, {
-//         expiresIn: expiresIn
-//     })
-//     return token
-// }

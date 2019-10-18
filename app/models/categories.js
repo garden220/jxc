@@ -3,9 +3,9 @@ const {sequelize}=require('../../core/db');
 const {Goods}=require('./goods');
 const {modelInit}=require('../../core/util');
 //商店模型
-class Shop extends Model{
+class Categories extends Model{
 }
-Shop.init({
+Categories.init({
     id:{
         type:Sequelize.BIGINT(11),
         allowNull:false,
@@ -17,21 +17,7 @@ Shop.init({
         type:Sequelize.STRING,
         allowNull:false
     },
-    address:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
-    user_id:{
-        type:Sequelize.BIGINT(11),
-        allowNull:false
-    },
-    phone:{
-        type:Sequelize.BIGINT(11),
-        allowNull:false
-    },
-    img_url:Sequelize.STRING,
     remark:Sequelize.STRING,
-},{sequelize,tableName:'shop'});
-Shop.hasMany(Goods)//一对多关联
-modelInit(Shop);//初始化增删改查函数
-module.exports={Shop};
+},{sequelize,tableName:'categories'});
+modelInit(Categories);//初始化增删改查函数
+module.exports={Categories};

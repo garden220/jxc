@@ -1,67 +1,9 @@
 const {Sequelize,Model} = require('sequelize');
 const {sequelize}=require('../../core/db');
+const {modelInit}=require('../../core/util');
 const Op = Sequelize.Op;
 //货物模型
-class Goods extends Model{
-    //获取
-    static async all(params){
-        const goods=await Goods.findAndCountAll({
-            where: {
-                name: {
-                    [Op.like]:'%' +params.name + '%'
-                },
-              },
-              limit: params.size,
-              offset: params.skip,
-        });
-        if(!goods){
-            throw new global.errors.AuthFailed('货物不存在');
-        }
-        return goods;
-    }
-    //查询
-    static async search(params){
-        const goods=await Goods.findAndCountAll({
-            where:{...params}
-        });
-        if(!goods){
-            throw new global.errors.AuthFailed('货物不存在');
-        }
-        return goods;
-    }
-    //删除
-    static async delete(params){   
-        const goods=await Goods.destroy({
-            where:{...params}
-        });
-        if(!goods){
-            throw new global.errors.AuthFailed('货物不存在');
-        }
-        return goods;
-    }
-    //更新
-    static async updateRows(obj){
-        const {id,name,number,unit_price,total_price,categories_id,shop_id,unit_id,img_url,remark}=obj;
-        const goods=await Goods.update({
-            name,
-            number,
-            unit_price,
-            total_price,
-            categories_id,
-            shop_id,
-            unit_id,
-            img_url,
-            remark
-        },{
-            where:{
-                id
-            }
-        });
-        if(!goods){
-            throw new global.errors.AuthFailed('更新失败');
-        }
-        return goods;
-    }
+class Goods extends Model{ 
 }
 
 Goods.init({
@@ -82,5 +24,5 @@ Goods.init({
     img_url:Sequelize.STRING,
     remark:Sequelize.STRING,
 },{sequelize,tableName:'goods'});
-
+modelInit(Goods);
 module.exports={Goods};

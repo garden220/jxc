@@ -1,6 +1,7 @@
 const {Sequelize,Model} = require('sequelize');
 const bcrypt=require('bcryptjs');
 const {sequelize}=require('../../core/db');
+const {modelInit}=require('../../core/util');
 //用户模型
 class User extends Model{
     //验证账号密码是否正确
@@ -56,5 +57,5 @@ User.init({
     register_time:Sequelize.STRING,
     login_time:Sequelize.STRING
 },{sequelize,tableName:'user'});
-
+modelInit(User);
 module.exports={User};

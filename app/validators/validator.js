@@ -1,5 +1,7 @@
 const {Validator,Rule}= require('../../core/validator-v2');
 const {User}=require('../models/user');
+const {Categories}=require('../models/categories');
+const {Unit}=require('../models/unit');
 const {LoginType}=require('../lib/enum');
 
 //正整数校验
@@ -74,6 +76,50 @@ class GoodsValidator extends Validator{
         ];
     }
 }
+class CategoriesValidator extends Validator{
+    constructor(){
+        super();
+        this.name=[
+            new Rule('isLength','名称不能为空',{
+                min:1,
+                max:32
+            }),
+        ];
+    }
+    async validateName(vals){
+        const name=vals.body.name;
+        const _name=await Categories.findOne({
+            where:{
+                name
+            }
+        })
+        if(_name){
+            throw new Error('name已存在');
+        }
+    }
+}
+class UnitValidator extends Validator{
+    constructor(){
+        super();
+        this.name=[
+            new Rule('isLength','名称不能为空',{
+                min:1,
+                max:32
+            }),
+        ];
+    }
+    async validateName(vals){
+        const name=vals.body.name;
+        const _name=await Unit.findOne({
+            where:{
+                name
+            }
+        })
+        if(_name){
+            throw new Error('name已存在');
+        }
+    }
+}
 //商店新建、更新验证
 // class ShopValidator extends Validator{
 //     constructor(){
@@ -134,5 +180,7 @@ module.exports={
     RegisterValidator,
     TokenValidator,
     NotEmptyValidator,
-    GoodsValidator
+    GoodsValidator,
+    CategoriesValidator,
+    UnitValidator
 }
