@@ -120,6 +120,21 @@ class UnitValidator extends Validator{
         }
     }
 }
+class OutBoundValidator extends Validator{
+    constructor(){
+        super();
+    }
+}
+class InBoundValidator extends Validator{
+    constructor(){
+        super();
+    }
+}
+class SaleValidator extends Validator{
+    constructor(){
+        super();
+    }
+}
 //商店新建、更新验证
 // class ShopValidator extends Validator{
 //     constructor(){
@@ -182,5 +197,8 @@ module.exports={
     NotEmptyValidator,
     GoodsValidator,
     CategoriesValidator,
-    UnitValidator
+    UnitValidator,
+    OutBoundValidator,
+    InBoundValidator,
+    SaleValidator
 }
