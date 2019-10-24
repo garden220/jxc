@@ -22,14 +22,14 @@ router.post('/add',new Auth(3).auth,async (ctx,next)=>{
         remark:v.get('body.remark'),
     };
     const count=await Goods.create(goods);
-    global.success({count});
+    global.success({count},ctx);
 })
 //删除
 router.delete('/delete',new Auth(3).auth,async (ctx,next)=>{
      const goods= await Goods.search({id:ctx.request.body.id});
     if(goods){
         const count=await Goods.delete({id:ctx.request.body.id});
-        global.success({count});
+        global.success({count},ctx);
     }
     
 })
@@ -40,7 +40,7 @@ router.put('/update',new Auth(3).auth,async (ctx,next)=>{
     const goods= await Goods.search({id});
    if(goods){
         await Goods.updateRows({id,name,number,unit_price,total_price,categories_id,shop_id,unit_id,img_url,remark});
-        global.success('更新成功');
+        global.success('更新成功',ctx);
    }
 })
 //查询，精确查询
@@ -48,7 +48,7 @@ router.get('/search',new Auth(3).auth,async (ctx,next)=>{
     const query=ctx.request.query;
     const goods= await Goods.search(query);
    if(goods){
-    global.success({...goods});
+    global.success({...goods},ctx);
    }
    
 })
@@ -57,7 +57,7 @@ router.get('/all',new Auth(3).auth,async (ctx,next)=>{
     const query=ctx.request.query;
     const goods= await Goods.all(query);
     if(goods){
-        global.success({...goods});
+        global.success({...goods},ctx);
     }
    
 })

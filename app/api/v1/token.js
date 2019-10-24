@@ -22,11 +22,11 @@ router.post('/',async (ctx,next)=>{
         default:
             throw new global.errors.ParameterException('没有处理程序');
     }
-    ctx.body=global.success({
+    global.success({
         token:userlogin.token,
         expireInSeconds:global.config.security.expiresIn,
         userId:userlogin.userId
-    });
+    },ctx);
 })
 //验证令牌的api，打开app时需要先验证缓存中的令牌是否合法
 router.post('/verify',async (ctx,next)=>{

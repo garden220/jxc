@@ -11,14 +11,14 @@ const {Auth} = require('../../../middlewares/auth')
 router.post('/add',new Auth(3).auth,async (ctx,next)=>{
     await new CategoriesValidator().validate(ctx);
     const count=await Categories.create({...ctx.request.body});
-    global.success({count});
+    global.success({count},ctx);
 })
 //删除
 router.delete('/delete',new Auth(3).auth,async (ctx,next)=>{
      const categories= await Categories.search(ctx.request.body.id);
     if(categories){
         const count=await Categories.delete(ctx.request.body.id);
-        global.success({count});
+        global.success({count},ctx);
     }
 })
 //更新
@@ -27,7 +27,7 @@ router.put('/update',new Auth(3).auth,async (ctx,next)=>{
     const categories= await Categories.search(id);
    if(categories){
        await Categories.updateRows({...ctx.request.body});
-       global.success('更新成功');
+       global.success('更新成功',ctx);
    }
 })
 //获取
@@ -35,7 +35,7 @@ router.get('/all',new Auth(3).auth,async (ctx,next)=>{
     const query=ctx.request.query;
     const categories= await Categories.all(query);
     if(categories){
-        global.success({...categories});
+        global.success({...categories},ctx);
    }
 })
 

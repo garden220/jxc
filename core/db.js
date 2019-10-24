@@ -16,7 +16,7 @@ const sequelize=new Sequelize(dbName,user,password,{
     }
 });
 //将所有模型与数据库同步，使用`force:true`属性会首先删除表并重新创建，生成环境中使用Migrations(迁移)
-sequelize.sync({ force: true });
+sequelize.sync({ force: false });
 
 module.exports={
     sequelize
